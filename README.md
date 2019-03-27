@@ -36,4 +36,6 @@ pause
 
 10. Executing sonar.bat created on steep 7
 
+Note: When initialize the server, if the error occurs "wrapper  | Critical error: wait for JVM process failed", means that the wrapper does not found installation of Java. In this case, one possible solution is set path of installation of Java in wrapper.conf file, let's say in C:\Projects\Sonar\sonarqube-7.7\conf\wrapper.conf line wrapper.java.command - Ex: C:\Program Files\Java\jdk1.8.0_201\bin\java)
+
 Have fun!
