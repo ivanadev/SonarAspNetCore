@@ -38,4 +38,26 @@ pause
 
 Note: When initialize the server, if the error occurs "wrapper  | Critical error: wait for JVM process failed", means that the wrapper does not found installation of Java. In this case, one possible solution is set path of Java in wrapper.conf file, let's say in C:\Projects\Sonar\sonarqube-7.7\conf\wrapper.conf line wrapper.java.command - Ex: C:\Program Files\Java\jdk1.8.0_201\bin\java)
 
+### OPENCOVER
+
+1. To add OpenCover to SonarQube, download the .msi file , let's say in: https://github.com/OpenCover/opencover/releases,
+version 4.7.922.
+
+2.Create a new environment variable named 'OPENCOVER_HOME', and set path as the directory of the OpenCover.Console.exe file.
+
+3.Edit your sonar.bat file:
+``
+setlocal enableextensions
+@cd /d "%~dp0"
+set OPEN_COVER=%OPENCOVER_HOME%\OpenCover.Console.exe
+dotnet %SONAR_SCANNER%\SonarScanner.MSBuild.dll begin /k:"App.Group:App.Name" /n:"App.Name" /v:"1.*" /d:sonar.cs.opencover.reportsPaths="%CD%\opencover.xml"
+dotnet build %CD%\App.Name.sln /t:Rebuild
+%OPEN_COVER% -output:"%CD%\opencover.xml" -register:user -target:"c:\program files\dotnet\dotnet.exe" -targetargs:"test %CD%\App.Name.Testes\App.Name.Testes.csproj" -oldstyle
+
+dotnet %SONAR_SCANNER%\SonarScanner.MSBuild.dll end
+pause
+``
+4. Run/Rerun the sonar.bat and StarSonar.bat.
+
+
 Have fun!
